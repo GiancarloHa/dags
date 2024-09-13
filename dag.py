@@ -8,7 +8,7 @@ from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKu
 from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor
 from airflow.providers.cncf.kubernetes.hooks.kubernetes import KubernetesHook
 from airflow.utils.dates import days_ago
-k8s_hook = KubernetesHook(conn_id='kubernetes_config')
+k8s_hook = KubernetesHook(conn_id='kubernetes_default')
 # [END import_module]
 
 # [START default_args]
