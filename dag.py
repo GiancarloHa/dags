@@ -46,4 +46,4 @@ submit = SparkKubernetesOperator(
 
 
 
-submitNe
+submit
