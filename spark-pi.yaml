@@ -12,7 +12,7 @@ spec:
   mainApplicationFile: local:///opt/spark/examples/jars/spark-examples_2.12-3.5.2.jar
   sparkVersion: 3.5.2
   driver:
-    javaOptions: "-Ddd.data.jobs.enabled=true -Ddd.service=spark-pi -Ddd.env=gian -Ddd.version=1.0 -Ddd.tags=clustername:gian,teste:gian -Ddd.logs.injection=true"
+    javaOptions: "-Ddd.data.jobs.enabled=true -Ddd.service=spark-pi -Ddd.env=gian-lab -Ddd.version=1.0 -Ddd.tags=clustername:gian,teste:gian -Ddd.logs.injection=true"
     annotations:
       ad.datadoghq.com/spark-kubernetes-driver.check_names: '["spark"]'
       ad.datadoghq.com/spark-kubernetes-driver.init_configs: '[{}]'
@@ -26,7 +26,7 @@ spec:
     memory: 512m
     serviceAccount: spark
   executor:
-    javaOptions: "-Ddd.data.jobs.enabled=true -Ddd.service=spark-pi -Ddd.env=gian -Ddd.version=1.0 -Ddd.tags=clustername:gian,teste:gian -Ddd.logs.injection=true"
+    javaOptions: "-Ddd.data.jobs.enabled=true -Ddd.service=spark-pi -Ddd.env=gian-lab -Ddd.version=1.0 -Ddd.tags=clustername:gian,teste:gian -Ddd.logs.injection=true"
     annotations:
       admission.datadoghq.com/java-lib.version: "latest"
     labels:
