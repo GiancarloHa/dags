@@ -6,9 +6,8 @@ from airflow import DAG
 # Operators; we need this to operate!
 from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKubernetesOperator
 from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor
-from airflow.providers.cncf.kubernetes.hooks.kubernetes import KubernetesHook
 from airflow.utils.dates import days_ago
-k8s_hook = KubernetesHook(conn_id='kubernetes_default')
+
 # [END import_module]
 
 # [START default_args]
@@ -30,20 +29,33 @@ default_args = {
 
 dag = DAG(
     'spark_pi',
-    start_date=days_ago(1),
     default_args=default_args,
     schedule_interval=timedelta(days=1),
     tags=['example']
 )
 
+# spark = open(
+#     "example_spark_kubernetes_operator_pi.yaml").read()
+
 submit = SparkKubernetesOperator(
-    task_id='spark_transform_data',
-    namespace='spark-operator',
-    application_file='spark-pi.yaml',
-    kubernetes_conn_id='kubernetes_default',
+    task_id='spark_pi_submit',
+    namespace="spark",
+    application_file="example_spark_kubernetes_operator_pi.yaml",
+    kubernetes_conn_id="kubernetes_in_cluster",
     do_xcom_push=True,
+    dag=dag,
+    api_group="sparkoperator.hpe.com",
+    enable_impersonation_from_ldap_user=False
 )
 
+sensor = SparkKubernetesSensor(
+    task_id='spark_pi_monitor',
+    namespace="sampletenant",
+    application_name="{{ task_instance.xcom_pull(task_ids='spark_pi_submit')['metadata']['name'] }}",
+    kubernetes_conn_id="kubernetes_in_cluster",
+    dag=dag,
+    api_group="sparkoperator.hpe.com",
+    attach_log=True
+)
 
-
-submit
+submit >> sensor
