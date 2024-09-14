@@ -32,7 +32,7 @@ dag = DAG(
     default_args=default_args,
     schedule_interval=timedelta(days=1),
     tags=['example'],
-    template_searchpath='/opt/airflow/dags/repo/dags/'
+    template_searchpath='/opt/airflow/dags/repo'
 )
 
 submit = SparkKubernetesOperator(
