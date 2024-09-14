@@ -32,12 +32,13 @@ dag = DAG(
     default_args=default_args,
     schedule_interval=timedelta(days=1),
     tags=['example']
+    template_searchpath='/opt/airflow/dags/repo/dags/'
 )
 
 submit = SparkKubernetesOperator(
     task_id='spark_pi_submit',
     namespace="spark",
-    application_file="/repo/spark/spark_pi.yaml",
+    application_file="spark_pi.yaml",
     kubernetes_conn_id="kubernetes_default",
     do_xcom_push=True,
     dag=dag,
